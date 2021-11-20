@@ -26,6 +26,9 @@ router.patch('/add-following/:id', userController.addFollowing);
 router.patch('/add-subscription/:id', userController.addSubscription);
 router.patch('/read-notification/:id', userController.readNotification);
 
+// delete user
+router.delete('/delete-user/:id', userController.deleteUser);
+
 // conversations
 router.patch('/create-conversation/:id', userController.createConversation);
 router.patch('/delete-conversation/:id', userController.deleteConversation);
