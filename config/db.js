@@ -4,7 +4,7 @@ mongoose
   .connect(
     "mongodb+srv://" +
       process.env.DB_USER_PASS +
-      "@cluster0.jebbb.mongodb.net/of-clone",
+      "@cluster0.jebbb.mongodb.net/ofclone",
     {
       useNewUrlParser: true,
       useUnifiedTopology: true,

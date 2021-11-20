@@ -1,4 +1,4 @@
-exports.uploadProfilePicture = async (req, res) => {
+exports.uploadProfilPicture = async (req, res) => {
 
 };
 
