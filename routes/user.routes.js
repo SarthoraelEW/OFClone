@@ -14,16 +14,15 @@ router.get("/logout", authController.logout);
 router.get('/user-info/:id', userController.userInfo);
 router.put('/update-bio/:id', userController.updateBio);
 router.put('/update-displayname/:id', userController.updateDisplayName);
-router.put('/add-phone-number/:id', userController.addPhoneNumber);
 router.put('/update-location/:id', userController.updateLocation);
 router.put('/update-website/:id', userController.updateWebsite);
 router.put('/update-wishlist/:id', userController.updateWishlist);
 router.put('/update-price/:id', userController.updatePrice);
 router.patch('/add-card/:id', userController.addCard);
 router.patch('/add-payement/:id', userController.addPayement);
-router.patch('/update-payement/:id', userController.updatePayement);
 router.patch('/add-following/:id', userController.addFollowing);
 router.patch('/add-subscription/:id', userController.addSubscription);
+router.patch('/update-subscription/:id', userController.updateSubscription);
 router.patch('/read-notification/:id', userController.readNotification);
 
 // delete user
@@ -32,6 +31,10 @@ router.delete('/delete-user/:id', userController.deleteUser);
 // conversations
 router.patch('/create-conversation/:id', userController.createConversation);
 router.patch('/delete-conversation/:id', userController.deleteConversation);
+
+// Phone verification
+router.patch('/get-verification-code/:id', userController.getVerificationCode);
+router.patch('/check-verification-code/:id', userController.checkVerificationCode);
 
 // upload
 router.post('/upload', upload.single('file'), uploadController.uploadProfilPicture);

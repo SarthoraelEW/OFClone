@@ -43,8 +43,12 @@ const userSchema = new mongoose.Schema(
       default: "./uploads/profil/random-user-bannery.png"
     },
     phoneNumber: {
-      type: String,
-      validate: [isMobilePhone],
+      type: {
+        phoneNumber: String,
+        isVerified: Boolean,
+        verificationCode: String
+      },
+      default: {phoneNumber: "", isVerified: false, verificationCode: ""}
     },
     location: {
       type: String,
@@ -83,7 +87,7 @@ const userSchema = new mongoose.Schema(
     payements: {
       type: [
         {
-          date: String,
+          date: Date,
           amout: String,
           description: String,
           isSucceeded: Boolean,
@@ -101,8 +105,8 @@ const userSchema = new mongoose.Schema(
         {
           creatorId: String,
           isActive: Boolean,
-          subTime: String,
-          date: String,
+          subTime: Number,
+          date: Date,
         },
       ],
     },
@@ -126,6 +130,7 @@ const userSchema = new mongoose.Schema(
           userId: String,
           description: String,
           date: String,
+          read: Boolean
         },
       ],
     },
