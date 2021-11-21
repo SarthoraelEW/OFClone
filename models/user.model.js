@@ -26,18 +26,21 @@ const userSchema = new mongoose.Schema(
     displayName: {
       type: String,
       maxlength: 40,
-      trim: true,
+      trim: true
     },
     bio: {
       type: String,
       maxlength: 1000,
       trim: true,
+      default: ""
     },
     profilePicture: {
       type: String,
+      default: "./uploads/profil/random-user.png"
     },
     bannery: {
       type: String,
+      default: "./uploads/profil/random-user-bannery.png"
     },
     phoneNumber: {
       type: String,
@@ -46,17 +49,21 @@ const userSchema = new mongoose.Schema(
     location: {
       type: String,
       maxlength: 64,
+      default: ""
     },
     website: {
       type: String,
       trim: true,
+      default: ""
     },
     wishlist: {
       type: String,
       trim: true,
+      default: ""
     },
     price: {
       type: String,
+      default: "0 €"
     },
     cards: {
       type: [
