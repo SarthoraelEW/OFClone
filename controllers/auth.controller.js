@@ -25,7 +25,7 @@ const sendVerificationEmail = (email, token, id) => {
     from: 'anthony.dufay1@gmail.com',
     to: email,
     subject: 'Verification email',
-    html: `<p>Click on this link to verify your email: localhost:5000/api/user/verify-email/${id}/${token}`
+    text: `Click on this link to verify your email: localhost:5000/api/user/verify-email/${id}/${token}`
   };
   
   transporter.sendMail(mailOptions, (err, info) => {
