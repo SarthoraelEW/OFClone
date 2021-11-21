@@ -10,6 +10,9 @@ router.post("/register", authController.signUp);
 router.post("/login", authController.signIn);
 router.get("/logout", authController.logout);
 
+// verify email
+router.get("/verify-email/:id/:token", userController.verifyEmail);
+
 // user info
 router.get('/user-info/:id', userController.userInfo);
 router.put('/update-bio/:id', userController.updateBio);

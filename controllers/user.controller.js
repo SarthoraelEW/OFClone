@@ -8,6 +8,35 @@ const accountSid = process.env.TWILIO_ACCOUNT_SID;
 const authToken = process.env.TWILIO_AUTH_TOKEN;
 
 /************** user info **************/
+exports.verifyEmail = async (req, res) => {
+  if (!ObjectId.isValid(req.params.id))
+    return res.status(400).send("ID unknow: " + req.params.id);
+
+  const user = await UserModel.findById(req.params.id);
+  if (user.verifyEmail.token === req.params.token) {
+    try {
+      UserModel.findByIdAndUpdate(
+        req.params.id,
+        {
+          $set: {
+            verifyEmail: {isVerified: true, token: ""}
+          }
+        },
+        { new: true, upsert: true, setDefaultsOnInsert: true },
+      (err, docs) => {
+        if (!err) res.send(docs);
+        else return res.status(500).send(err);
+      }
+      )
+    } catch (err) {
+      return res.status(500).send(err);
+    }
+  } else {
+    return res.status(400).send("Token unknow: " + req.params.token);
+  }
+}
+
+/************** user info **************/
 
 exports.userInfo = async (req, res) => {
   if (!ObjectId.isValid(req.params.id))

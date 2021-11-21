@@ -1,6 +1,8 @@
 const UserModel = require('../models/user.model');
 const jwt = require('jsonwebtoken');
+const nodemailer = require('nodemailer');
 const { signUpErrors, signInErrors } = require('../utils/error.utils');
+const { randomToken } = require('../utils/randomCode.utils');
 
 const maxAge = 3 * 24 * 60 * 60 * 1000;
 
@@ -10,11 +12,38 @@ const createToken = (id) => {
   });
 };
 
+const sendVerificationEmail = (email, token, id) => {
+  var transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+      user: 'anthony.dufay1@gmail.com',
+      pass: 'Viserys_11112011'
+    }
+  });
+  
+  var mailOptions = {
+    from: 'anthony.dufay1@gmail.com',
+    to: email,
+    subject: 'Verification email',
+    html: `<p>Click on this link to verify your email: localhost:5000/api/user/verify-email/${id}/${token}`
+  };
+  
+  transporter.sendMail(mailOptions, (err, info) => {
+    if (err) {
+      console.log(err);
+    } else {
+      console.log('Email sent: ' + info.response);
+    }
+  });
+};
+
 exports.signUp = async (req, res) => {
   const {username, email, password} = req.body;
+  const token = randomToken(10);
 
   try {
-    const user = await UserModel.create({username, email, password});
+    const user = await UserModel.create({username, email, password, verifyEmail: {isVerified: false, token: token}});
+    sendVerificationEmail(email, token, user._id);
     res.status(200).json({user: user._id});
   } catch (err) {
     const errors = signUpErrors(err);
