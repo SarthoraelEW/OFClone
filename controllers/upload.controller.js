@@ -81,3 +81,7 @@ exports.uploadBannery = async (req, res) => {
     return res.status(500).send(err);
   }
 };
+
+exports.createPost = async (req, res) => {
+
+};

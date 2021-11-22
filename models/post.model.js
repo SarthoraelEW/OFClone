@@ -24,9 +24,12 @@ const postSchema = new mongoose.Schema(
           message: String,
           likes: [String],
           date: String,
-          tips: String,
         },
       ],
+    },
+    tips: {
+      type: String,
+      default: ""
     },
     priceForUnlock: {
       type: String,
