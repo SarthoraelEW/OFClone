@@ -43,7 +43,7 @@ exports.signUp = async (req, res) => {
 
   try {
     const user = await UserModel.create({username, email, password, verifyEmail: {isVerified: false, token: token}});
-    sendVerificationEmail(email, token, user._id);
+    //sendVerificationEmail(email, token, user._id);
     res.status(200).json({user: user._id});
   } catch (err) {
     const errors = signUpErrors(err);

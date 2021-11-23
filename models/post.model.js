@@ -21,22 +21,26 @@ const postSchema = new mongoose.Schema(
     comments: {
       type: [
         {
+          commenterId: String,
           message: String,
           likes: [String],
-          date: String,
+          date: Date,
         },
       ],
     },
     tips: {
-      type: String,
-      default: ""
+      type: [{
+        tiperId: String,
+        amount: String
+      }],
+      default: []
     },
     priceForUnlock: {
       type: String,
       default: "",
     },
     userWhoUnlocked: {
-      type: String,
+      type: [String],
     },
   },
   {
