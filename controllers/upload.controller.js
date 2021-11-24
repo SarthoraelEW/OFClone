@@ -20,7 +20,7 @@ exports.uploadProfilPicture = async (req, res) => {
     return res.status(201).json(errors);
   }
 
-  const fileName = req.body.name + ".jpg";
+  const fileName = req.body.name + "-profil" + ".jpg";
 
   await pipeline(
     req.file.stream,
@@ -32,7 +32,7 @@ exports.uploadProfilPicture = async (req, res) => {
   try {
     UserModel.findByIdAndUpdate(
       req.body.userId,
-      { $set: { profilPicture: "./uploads/profil/" + "-profil" + fileName } },
+      { $set: { profilePicture: "./uploads/profil/" + fileName } },
       { new: true, upsert: true, setDefaultsOnInsert: true },
       (err, docs) => {
         if (!err) return res.send(docs);

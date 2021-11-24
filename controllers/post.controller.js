@@ -31,7 +31,7 @@ exports.getPostsForHomePage = async (req, res) => {
     }
   });
 
-  const posts = PostModel.find({ creatorId: { $in: creators }}, (err, docs) => {
+  PostModel.find({ posterId: { $in: creators }}, (err, docs) => {
     if (!err) res.send(docs);
     else return res.status(400).json(err);
   });

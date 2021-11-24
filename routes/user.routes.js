@@ -10,6 +10,11 @@ router.post("/register", authController.signUp);
 router.post("/login", authController.signIn);
 router.get("/logout", authController.logout);
 
+// GET Methods
+router.get("/get-subscriptions-users/:id", userController.getSubscriptionsUsers);
+router.get("/get-users-from-post/:id", userController.getUsersFromPost);
+router.get("/get-users-from-conversations/:id", userController.getUsersFromConversations);
+
 // verify email
 router.get("/verify-email/:id/:token", userController.verifyEmail);
 
@@ -40,7 +45,7 @@ router.patch('/get-verification-code/:id', userController.getVerificationCode);
 router.patch('/check-verification-code/:id', userController.checkVerificationCode);
 
 // upload
-router.post('/upload', upload.single('file'), uploadController.uploadProfilPicture);
-router.post('/upload', upload.single('file'), uploadController.uploadBannery);
+router.post('/upload-profil', upload.single('file'), uploadController.uploadProfilPicture);
+router.post('/upload-bannery', upload.single('file'), uploadController.uploadBannery);
 
 module.exports = router;

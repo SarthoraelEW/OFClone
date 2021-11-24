@@ -1,4 +1,5 @@
 const UserModel = require("../models/user.model");
+const PostModel = require("../models/post.model");
 const twilio = require("twilio");
 const ObjectId = require("mongoose").Types.ObjectId;
 const { randomCode } = require("../utils/randomCode.utils");
@@ -7,7 +8,78 @@ const { isMobilePhone } = require("validator");
 const accountSid = process.env.TWILIO_ACCOUNT_SID;
 const authToken = process.env.TWILIO_AUTH_TOKEN;
 
+/************** GET Methods **************/
+
+exports.getSubscriptionsUsers = async (req, res) => {
+  if (!ObjectId.isValid(req.params.id))
+    return res.status(400).send("ID unknow: " + req.params.id);
+
+  const user = await UserModel.findById(req.params.id);
+  const subscriptions = user.subscriptions;
+
+  const usersToSend = [];
+
+  subscriptions.forEach(sub => {
+    usersToSend.push(sub.creatorId);
+  });
+
+  UserModel.find({ _id: { $in: usersToSend}}, (err, docs) => {
+    if (!err) res.send(docs);
+    else return res.status(500).json(err);
+  });
+};
+
+exports.getUsersFromPost = async (req, res) => {
+  if (!ObjectId.isValid(req.params.id))
+    return res.status(400).send("ID unknow: " + req.params.id);
+
+  const post = await PostModel.findById(req.params.id);
+
+  const usersToSend = [post.creatorId];
+
+  post.likes.forEach(id => {
+    if (!usersToSend.includes(id))
+      usersToSend.push(id);
+  });
+
+  post.comments.forEach(comment => {
+    if (!usersToSend.includes(comment.commenterId)) {
+      usersToSend.push(comment.commenterId);
+    }
+    comment.likes.forEach(id => {
+      if (!usersToSend.includes(id)) {
+        usersToSend.push(id);
+      }
+    })
+  });
+
+  UserModel.find({ _id: { $in: usersToSend}}, (err, docs) => {
+    if (!err) res.send(docs);
+    else return res.status(500).json(err);
+  });
+};
+
+exports.getUsersFromConversations = async (req, res) => {
+  if (!ObjectId.isValid(req.params.id))
+    return res.status(400).send("ID unknow: " + req.params.id);
+
+  const user = await UserModel.findById(req.params.id);
+  const conversations = user.conversations;
+
+  const usersToSend = [];
+
+  conversations.forEach(conv => {
+    usersToSend.push(conv.userId);
+  });
+
+  UserModel.find({ _id: { $in: usersToSend}}, (err, docs) => {
+    if (!err) res.send(docs);
+    else return res.status(500).json(err);
+  });
+};
+
 /************** user info **************/
+
 exports.verifyEmail = async (req, res) => {
   if (!ObjectId.isValid(req.params.id))
     return res.status(400).send("ID unknow: " + req.params.id);
@@ -247,6 +319,18 @@ exports.addSubscription = async (req, res) => {
 
   try {
     UserModel.findByIdAndUpdate(
+      req.body.creatorId,
+      {
+        $addToSet: {
+          fans: req.params.id
+        }
+      },
+      { new: true, upsert: true, setDefaultsOnInsert: true },
+      (err, docs) => {
+        if (err) return res.status(500).send(err);
+      }
+    );
+    UserModel.findByIdAndUpdate(
       req.params.id,
       {
         $addToSet: {
@@ -281,6 +365,14 @@ exports.updateSubscription = async (req, res) => {
   });
 
   try {
+    UserModel.findByIdAndUpdate(
+      req.body.creatorId,
+      {
+        $pull: {
+          fans: req.params.id
+        }
+      }
+    )
     UserModel.findByIdAndUpdate(
       req.params.id,
       {
