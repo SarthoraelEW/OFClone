@@ -10,7 +10,6 @@ const Card = ({ post }) => {
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(true);
   const usersReducer = useSelector((state) => state.usersReducer);
-  const user = useSelector((state) => state.userReducer);
   const [showingMedias, setShowingMedias] = useState(false);
 
   const [showingComments, setShowingComments] = useState(false);

@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { getPostsForUser } from "../actions/posts.action";
 import { getSubscriptionsUsers } from "../actions/users.action";
 import { UidContext } from "../components/AppContext";
@@ -11,9 +11,6 @@ const Home = () => {
   const uid = useContext(UidContext);
 
   const dispatch = useDispatch();
-  const user = useSelector((state) => state.userReducer);
-  const usersReducer = useSelector((state) => state.usersReducer);
-  const postsReducer = useSelector((state) => state.postsReducer);
 
   useEffect(() => {
     const getData = () => {

@@ -1,1 +1,3 @@
 Add 1/nb de photo sur les posts avec plusieurs photos.
+Add videos
+Add date when < 1 day

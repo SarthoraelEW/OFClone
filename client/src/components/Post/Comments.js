@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { commentPost } from "../../actions/posts.action";
 import { getUsersFromPost } from "../../actions/users.action";
