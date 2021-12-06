@@ -19,11 +19,11 @@ exports.getSubscriptionsUsers = async (req, res) => {
 
   const usersToSend = [];
 
-  subscriptions.forEach(sub => {
+  subscriptions.forEach((sub) => {
     usersToSend.push(sub.creatorId);
   });
 
-  UserModel.find({ _id: { $in: usersToSend}}, (err, docs) => {
+  UserModel.find({ _id: { $in: usersToSend } }, (err, docs) => {
     if (!err) res.send(docs);
     else return res.status(500).json(err);
   });
@@ -37,23 +37,22 @@ exports.getUsersFromPost = async (req, res) => {
 
   const usersToSend = [post.creatorId];
 
-  post.likes.forEach(id => {
-    if (!usersToSend.includes(id))
-      usersToSend.push(id);
+  post.likes.forEach((id) => {
+    if (!usersToSend.includes(id)) usersToSend.push(id);
   });
 
-  post.comments.forEach(comment => {
+  post.comments.forEach((comment) => {
     if (!usersToSend.includes(comment.commenterId)) {
       usersToSend.push(comment.commenterId);
     }
-    comment.likes.forEach(id => {
+    comment.likes.forEach((id) => {
       if (!usersToSend.includes(id)) {
         usersToSend.push(id);
       }
-    })
+    });
   });
 
-  UserModel.find({ _id: { $in: usersToSend}}, (err, docs) => {
+  UserModel.find({ _id: { $in: usersToSend } }, (err, docs) => {
     if (!err) res.send(docs);
     else return res.status(500).json(err);
   });
@@ -68,14 +67,78 @@ exports.getUsersFromConversations = async (req, res) => {
 
   const usersToSend = [];
 
-  conversations.forEach(conv => {
+  conversations.forEach((conv) => {
     usersToSend.push(conv.userId);
   });
 
-  UserModel.find({ _id: { $in: usersToSend}}, (err, docs) => {
+  UserModel.find({ _id: { $in: usersToSend } }, (err, docs) => {
     if (!err) res.send(docs);
     else return res.status(500).json(err);
   });
+};
+
+exports.getSuggestions = async (req, res) => {
+  if (!ObjectId.isValid(req.params.id))
+    return res.status(400).send("ID unknow: " + req.params.id);
+
+  const user = await UserModel.findById(req.params.id);
+  const subscriptions = user.subscriptions.map(sub => sub.creatorId);
+
+  const subsUser = await UserModel.find({_id: {$in: subscriptions}});
+  const otherFans = [];
+  subsUser.forEach(subUser => {
+    subUser.fans.forEach(fan => {
+      if (req.params.id !== fan && !otherFans.includes(fan)) {
+        otherFans.push(fan);
+      }
+    });
+  });
+
+  const fanModels = await UserModel.find({_id: {$in: otherFans}});
+  const suggestions = [];
+
+  fanModels.forEach(fan => {
+    fan.subscriptions.forEach(subFan => {
+      if (subFan.creatorId === req.params.id || subscriptions.includes(subFan.creatorId))
+        return;
+      let found = false;
+      suggestions.forEach(sugg => {
+        if (found === false && sugg.creatorId === subFan.creatorId) {
+          found = true;
+          sugg.occurence++;
+        }
+      });
+      if (!found) {
+        suggestions.push({creatorId: subFan.creatorId, occurence: 1});
+      }
+    });
+  });
+
+  suggestions.sort((a, b) => b.occurence - a.occurence);
+  if (suggestions.length > 30) {
+    suggestions.slice(0, 30);
+  }
+  const suggestionsId = suggestions.map(sugg => sugg.creatorId);
+
+  UserModel.find({_id: {$in: suggestionsId}}, (err, docs) => {
+    if (!err) res.send(docs);
+    else return res.status(400).json(err);
+  });
+};
+
+exports.findUsersWithQuery = async (req, res) => {
+  console.log(req.params.query);
+  UserModel.find(
+    {
+      username: {
+        $regex: new RegExp(req.params.query),
+      },
+    },
+    (err, docs) => {
+      if (!err) res.send(docs);
+      else return res.status(400).json(err);
+    }
+  ).limit(10);
 };
 
 /************** user info **************/
@@ -91,22 +154,22 @@ exports.verifyEmail = async (req, res) => {
         req.params.id,
         {
           $set: {
-            verifyEmail: {isVerified: true, token: ""}
-          }
+            verifyEmail: { isVerified: true, token: "" },
+          },
         },
         { new: true, upsert: true, setDefaultsOnInsert: true },
-      (err, docs) => {
-        if (!err) res.send(docs);
-        else return res.status(500).send(err);
-      }
-      )
+        (err, docs) => {
+          if (!err) res.send(docs);
+          else return res.status(500).send(err);
+        }
+      );
     } catch (err) {
       return res.status(500).send(err);
     }
   } else {
     return res.status(400).send("Token unknow: " + req.params.token);
   }
-}
+};
 
 /************** user info **************/
 
@@ -322,8 +385,8 @@ exports.addSubscription = async (req, res) => {
       req.body.creatorId,
       {
         $addToSet: {
-          fans: req.params.id
-        }
+          fans: req.params.id,
+        },
       },
       { new: true, upsert: true, setDefaultsOnInsert: true },
       (err, docs) => {
@@ -365,14 +428,11 @@ exports.updateSubscription = async (req, res) => {
   });
 
   try {
-    UserModel.findByIdAndUpdate(
-      req.body.creatorId,
-      {
-        $pull: {
-          fans: req.params.id
-        }
-      }
-    )
+    UserModel.findByIdAndUpdate(req.body.creatorId, {
+      $pull: {
+        fans: req.params.id,
+      },
+    });
     UserModel.findByIdAndUpdate(
       req.params.id,
       {
@@ -554,15 +614,15 @@ exports.checkVerificationCode = async (req, res) => {
       req.params.id,
       {
         $set: {
-          phoneNumber: phoneNumber
-        }
+          phoneNumber: phoneNumber,
+        },
       },
       { new: true, upsert: true, setDefaultsOnInsert: true },
       (err, docs) => {
         if (!err) res.send(docs);
         else return res.status(500).send(err);
       }
-    )
+    );
   } catch (err) {
     return res.status(500).send(err);
   }

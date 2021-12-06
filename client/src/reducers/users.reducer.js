@@ -1,55 +1,26 @@
 import { GET_SUBSCRIPTIONS_USERS, GET_USERS_FROM_CONVERSATIONS, GET_USERS_FROM_POST } from "../actions/users.action";
 
-const initialState = {
-  users: []
-};
+const initialState = {usersFromSubscriptions: [], usersFromConversations: [], usersFromSuggestions: [], usersFromPost: []};
 
 export default function usersReducer(state = initialState, action) {
   switch(action.type) {
     case GET_SUBSCRIPTIONS_USERS:
-      action.payload.forEach(newUser => {
-        let found = false;
-        state.users.forEach(oldUser => {
-          if (newUser._id === oldUser._id) {
-            oldUser = newUser;
-            found = true
-          }
-        });
-        if (!found) {
-          state.users.push(newUser);
-        }
-      });
-      return state;
+      return {
+        ...state,
+        usersFromSubscriptions: action.payload
+      };
 
     case GET_USERS_FROM_POST:
-      action.payload.forEach(newUser => {
-        let found = false;
-        state.users.forEach(oldUser => {
-          if (newUser._id === oldUser._id) {
-            oldUser = newUser;
-            found = true
-          }
-        });
-        if (!found) {
-          state.users.push(newUser);
-        }
-      });
-      return state;
+      return {
+        ...state,
+        usersFromPost: action.payload
+      };
 
     case GET_USERS_FROM_CONVERSATIONS:
-      action.payload.forEach(newUser => {
-        let found = false;
-        state.users.forEach(oldUser => {
-          if (newUser._id === oldUser._id) {
-            oldUser = newUser;
-            found = true
-          }
-        });
-        if (!found) {
-          state.users.push(newUser);
-        }
-      });
-      return state;
+      return {
+        ...state,
+        usersFromConversations: action.payload
+      };
     
     default:
       return state;

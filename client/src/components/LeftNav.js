@@ -1,11 +1,13 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { getUser } from "../actions/user.actions";
 import { UidContext } from "./AppContext";
+import HiddenMenu from "./HiddenMenu";
 
 const LeftNav = ({ page }) => {
   let navigate = useNavigate();
+  const [showingHiddenMenu, setShowingHiddenMenu] = useState(false);
 
   const uid = useContext(UidContext);
 
@@ -19,12 +21,27 @@ const LeftNav = ({ page }) => {
     getData();
   }, [dispatch, uid]);
 
+  const setHiddenMenuActive = () => {
+    var hiddenMenu = document.getElementById("hidden-menu-container");
+    console.log("Yo");
+    if (showingHiddenMenu) {
+      setShowingHiddenMenu(false);
+      hiddenMenu.classList.add("hidden");
+    } else {
+      setShowingHiddenMenu(true);
+      hiddenMenu.classList.remove("hidden");
+    }
+  };
+
 
   return (
     <div className="leftnav">
+      <div id="hidden-menu-container" className="hidden-menu-container hidden">
+        <HiddenMenu handleClose={setHiddenMenuActive}/>
+      </div>
       <ul>
         <li className="profil-picture">
-          <img src={user.profilePicture} alt="profil" />
+          <img src={user.profilePicture} alt="profil" onClick={setHiddenMenuActive} />
         </li>
         <li className={page === "home" ? "active page-link" : "page-link"} onClick={() => {navigate('/')}}>
           <span class="material-icons-outlined">home</span>

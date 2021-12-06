@@ -1,6 +1,10 @@
 .thread {
-  width: 600px;
+  width: 40%;
   border-right: 1px solid $border-color;
+
+  ::-webkit-scrollbar {
+    display: none;
+  }
 
   .thread-header {
     border-bottom: 1px solid $border-color;
@@ -67,7 +71,7 @@
     img {
       margin-top: 10px;
       height: 450px;
-      width: 600px;
+      width: 100%;
       cursor: pointer;
     }
 
@@ -78,6 +82,10 @@
         margin-left: 20px;
         font-size: 1.6rem;
         cursor: pointer;
+      }
+
+      .liked {
+        color: $error-color;
       }
     }
 

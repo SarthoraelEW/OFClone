@@ -1,40 +1,36 @@
-import { GET_POSTS_FOR_USER, GET_POSTS_FROM_CREATOR } from "../actions/posts.action";
+import { GET_POSTS_FOR_USER, GET_POSTS_FROM_CREATOR, LIKE_POST, UNLIKE_POST } from "../actions/posts.action";
 
-const initialState = {
-  posts: []
-};
+const initialState = [];
 
 export default function postsReducer(state = initialState, action) {
   switch(action.type) {
     case GET_POSTS_FOR_USER:
-      action.payload.forEach(newPost => {
-        let found = false;
-        state.posts.forEach(oldPost => {
-          if (newPost._id === oldPost._id) {
-            oldPost = newPost;
-            found = true
-          }
-        });
-        if (!found) {
-          state.posts.push(newPost);
-        }
-      });
-      return state;
+      return action.payload;
 
     case GET_POSTS_FROM_CREATOR:
-      action.payload.forEach(newPost => {
-        let found = false;
-        state.posts.forEach(oldPost => {
-          if (newPost._id === oldPost._id) {
-            oldPost = newPost;
-            found = true
-          }
-        });
-        if (!found) {
-          state.posts.push(newPost);
+      return action.payload;
+
+    case LIKE_POST:
+      return state.map((post) => {
+        if (post._id === action.payload.postId) {
+          return {
+            ...post,
+            likes: [action.payload.userId, ...post.likes]
+          };
         }
+        return post;
       });
-      return state;
+
+    case UNLIKE_POST:
+      return state.map((post) => {
+        if (post._id === action.payload.postId) {
+            return {
+                ...post,
+                likes: post.likes.filter((id) => id !== action.payload.userId)
+            }
+        }
+        return post;
+    });
 
     default:
       return state;

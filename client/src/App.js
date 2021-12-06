@@ -2,7 +2,6 @@ import Routes from "./components/Routes/Index";
 import { UidContext } from "./components/AppContext";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
 
 function App() {
   const [uid, setUid] = useState(null);

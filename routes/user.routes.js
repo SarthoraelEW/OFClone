@@ -14,6 +14,8 @@ router.get("/logout", authController.logout);
 router.get("/get-subscriptions-users/:id", userController.getSubscriptionsUsers);
 router.get("/get-users-from-post/:id", userController.getUsersFromPost);
 router.get("/get-users-from-conversations/:id", userController.getUsersFromConversations);
+router.get("/get-suggestions/:id", userController.getSuggestions);
+router.get("/find-users-with-query/:query", userController.findUsersWithQuery);
 
 // verify email
 router.get("/verify-email/:id/:token", userController.verifyEmail);

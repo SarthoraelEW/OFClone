@@ -1,0 +1,58 @@
+.widget {
+
+  .widget-title {
+    padding-left: 20px;
+    text-transform: uppercase;
+    color: $text-color;
+    margin-top: 30px;
+    margin-bottom: 20px;
+  }
+
+  ul {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 400px;
+  }
+
+  li {
+    padding-left: 20px;
+    position: relative;
+    height: 180px;
+  }
+
+  .widget-card-footer {
+    position: absolute;
+    z-index: 1;
+    background-color: rgba(0, 0, 0, 0.4);
+    width: 360px;
+    bottom: 16%;
+    height: 70px;
+    text-align: center;
+
+    h2, h3 {
+      margin-right: 50px;
+      color: white;
+    }
+  }
+
+  .rounded-picture {
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    z-index: 2;
+    top: 20%;
+    margin-left: 20px;
+    border: 2px solid white;
+    padding: 2px;
+  }
+
+  .widget-card-bannery {
+    position: absolute;
+    width: 360px;
+    height: 150px;
+    z-index: 0;
+    border-radius: 10px;
+  }
+}

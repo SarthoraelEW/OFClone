@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { isEmpty } from '../Utils';
+import { dateParser, isEmpty } from '../Utils';
+import LikeButton from './LikeButton';
 
 const Card = ({ post }) => {
   const [isLoading, setIsLoading] = useState(true);
@@ -8,13 +9,13 @@ const Card = ({ post }) => {
   const user = useSelector((state) => state.userReducer);
 
   useEffect(() => {
-    !isEmpty(usersReducer.users[0]) && setIsLoading(false);
+    !isEmpty(usersReducer.usersFromSubscriptions[0]) && setIsLoading(false);
   }, [usersReducer]);
 
-  const postCreator = usersReducer.users.filter(poster => poster._id === post.posterId)[0];
+  const postCreator = usersReducer.usersFromSubscriptions.filter(poster => poster._id === post.posterId)[0];
 
   return (
-    <li className="card-container" key={post._id}>
+    <li className="card-container">
       {isLoading ? (
         <i className="fas fa-spinner fa-spin"></i>
       ) : (
@@ -25,14 +26,14 @@ const Card = ({ post }) => {
               <h3>{postCreator.username}</h3>
               <h4>{"@" + postCreator.username}</h4>
             </div>
-            <h6>{post.createdAt}</h6>
+            <h6>{dateParser(post.createdAt)}</h6>
           </div>
           <p>{post.message}</p>
           {!isEmpty(post.medias[0]) &&
           <img src={post.medias[0]} alt="post" />}
           <div className="likes-comments">
-            <span class="material-icons-outlined">favorite_border</span>
-            <span class="material-icons-outlined">question_answer</span>
+            <LikeButton post={post} />
+            <span className="material-icons-outlined">question_answer</span>
           </div>
           <h6>{post.likes.length + " likes - " + post.comments.length + " comments - "}</h6>
         </>
