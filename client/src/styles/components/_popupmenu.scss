@@ -1,0 +1,30 @@
+.popup-menu-container {
+  position: absolute;
+  z-index: 2000;
+  background-color: $background-color;
+  transform: translateX(-50%);
+  transform: translateY(-50%);
+  top: 0;
+  border: 1px solid $border-color;
+  box-shadow: $text-color 0px 0px 15px, $text-color 0px 0px 3px 1px;
+  border-radius: 10px;
+  * {
+    color: white;
+  }
+
+  .popup-menu {
+
+    li {
+      border-bottom: none;
+      transition: background-color 0.2s ease;
+      border-radius: 10px;
+      padding: 10px;
+      cursor: pointer;
+
+      &:hover {
+        background-color: $hover-color;
+        transition: background-color 0.2s ease;
+      }
+    }
+  }
+}

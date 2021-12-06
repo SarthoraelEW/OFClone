@@ -1,9 +1,18 @@
-import { GET_POSTS_FOR_USER, GET_POSTS_FROM_CREATOR, LIKE_POST, UNLIKE_POST } from "../actions/posts.action";
+import {
+  COMMENT_POST,
+  DELETE_COMMENT,
+  GET_POSTS_FOR_USER,
+  GET_POSTS_FROM_CREATOR,
+  LIKE_COMMENT,
+  LIKE_POST,
+  UNLIKE_COMMENT,
+  UNLIKE_POST,
+} from "../actions/posts.action";
 
 const initialState = [];
 
 export default function postsReducer(state = initialState, action) {
-  switch(action.type) {
+  switch (action.type) {
     case GET_POSTS_FOR_USER:
       return action.payload;
 
@@ -15,7 +24,7 @@ export default function postsReducer(state = initialState, action) {
         if (post._id === action.payload.postId) {
           return {
             ...post,
-            likes: [action.payload.userId, ...post.likes]
+            likes: [action.payload.userId, ...post.likes],
           };
         }
         return post;
@@ -24,15 +33,71 @@ export default function postsReducer(state = initialState, action) {
     case UNLIKE_POST:
       return state.map((post) => {
         if (post._id === action.payload.postId) {
-            return {
-                ...post,
-                likes: post.likes.filter((id) => id !== action.payload.userId)
-            }
+          return {
+            ...post,
+            likes: post.likes.filter((id) => id !== action.payload.userId),
+          };
         }
         return post;
-    });
+      });
+
+    case LIKE_COMMENT:
+      return state.map((post) => {
+        if (post._id === action.payload.postId) {
+          const newComments = post.comments;
+          newComments.forEach((comment) => {
+            if (comment._id === action.payload.commentId) {
+              comment.likes.push(action.payload.userId);
+            }
+          });
+          return {
+            ...post,
+            comments: newComments,
+          };
+        }
+        return post;
+      });
+
+    case UNLIKE_COMMENT:
+      return state.map((post) => {
+        if (post._id === action.payload.postId) {
+          const newComments = post.comments;
+          newComments.forEach((comment) => {
+            if (comment._id === action.payload.commentId) {
+              comment.likes = comment.likes.filter((id) => id !== action.payload.userId);
+            }
+          });
+          return {
+            ...post,
+            comments: newComments
+          };
+        }
+        return post;
+      });
+
+    case COMMENT_POST:
+      return state.map((post) => {
+        if (post._id === action.payload._id) {
+          return {
+            ...post,
+            comments: action.payload.comments
+          };
+        }
+        return post;
+      });
+
+    case DELETE_COMMENT:
+      return state.map((post) => {
+        if (post._id === action.payload._id) {
+          return {
+            ...post,
+            comments: action.payload.comments
+          };
+        }
+        return post;
+      });
 
     default:
       return state;
   }
-};
+}

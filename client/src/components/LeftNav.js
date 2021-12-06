@@ -23,7 +23,6 @@ const LeftNav = ({ page }) => {
 
   const setHiddenMenuActive = () => {
     var hiddenMenu = document.getElementById("hidden-menu-container");
-    console.log("Yo");
     if (showingHiddenMenu) {
       setShowingHiddenMenu(false);
       hiddenMenu.classList.add("hidden");

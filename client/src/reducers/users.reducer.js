@@ -11,9 +11,22 @@ export default function usersReducer(state = initialState, action) {
       };
 
     case GET_USERS_FROM_POST:
+      const users = state.usersFromPost;
+      action.payload.forEach(newUser => {
+        var found = false;
+        users.forEach(x => {
+          if (x._id === newUser._id) {
+            x = newUser;
+            found = true;
+          }
+        });
+        if (!found) {
+          users.push(newUser);
+        }
+      });
       return {
         ...state,
-        usersFromPost: action.payload
+        usersFromPost: users
       };
 
     case GET_USERS_FROM_CONVERSATIONS:

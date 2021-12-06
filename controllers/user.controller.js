@@ -35,7 +35,7 @@ exports.getUsersFromPost = async (req, res) => {
 
   const post = await PostModel.findById(req.params.id);
 
-  const usersToSend = [post.creatorId];
+  const usersToSend = [post.posterId];
 
   post.likes.forEach((id) => {
     if (!usersToSend.includes(id)) usersToSend.push(id);

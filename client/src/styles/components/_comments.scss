@@ -1,0 +1,114 @@
+.comments-container {
+
+  .comment-img {
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    margin-left: 10px;
+    cursor: pointer;
+  }
+
+  .comment {
+    display: flex;
+    position: relative;
+    width: 100%;
+    margin-top: 10px;
+
+
+    h6 {
+      margin-left: 10px;
+    }
+
+    .comment-content {
+      p {
+        font-size: 1rem;
+      }
+
+      .pseudo {
+        font-size: 1.1rem;
+        font-weight: bold;
+        cursor: pointer;
+
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+    }
+
+    .comment-date-reaction {
+      display: flex;
+    }
+
+    .like {
+      position: absolute;
+      right: 0;
+      margin-right: 40px;
+      color: $text-color;
+      margin-top: 10px;
+      cursor: pointer;
+
+      &:hover {
+        color: $blue;
+      }
+    }
+
+    .more {
+      position: absolute;
+      right: 0;
+      margin-right: 10px;
+      color: $text-color;
+      margin-top: 10px;
+      cursor: pointer;
+
+      &:hover {
+        color: $blue;
+      }
+    }
+
+    .liked {
+      color: $error-color;
+    }
+  }
+
+  h5 {
+    margin-left: 10px;
+    margin-top: 10px;
+    color: $text-color;
+    cursor: pointer;
+
+    &:hover {
+      color: $blue;
+      text-decoration: underline;
+    }
+  }
+
+  .new-comment-container {
+    display: flex;
+    position: relative;
+    margin-top: 10px;
+    background-color: $border-color;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-top: 1px solid $text-color;
+
+    input {
+      background: none;
+      color: $text-color;
+      font-size: 1.1rem;
+      margin-left: 20px;
+    }
+
+    span {
+      position: absolute;
+      right: 0;
+      margin-right: 10px;
+      color: $text-color;
+      margin-top: 10px;
+      cursor: pointer;
+
+      &:hover {
+        color: $blue;
+      }
+    }
+  }
+}
