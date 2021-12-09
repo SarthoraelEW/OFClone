@@ -6,8 +6,6 @@ const Medias = ({ post, handleClick }) => {
   return (
     <div className="medias-hover" onClick={(e) => {
       const container = document.getElementsByClassName("medias-hover")[0];
-      console.log(e.target);
-      console.log(container);
       if (container === e.target) {
         setIndex(0);
         handleClick();
@@ -33,7 +31,7 @@ const Medias = ({ post, handleClick }) => {
       >
         arrow_back_ios
       </span>
-      <img src={post.medias[index]} alt="post_media" />
+      <img src={`${process.env.REACT_APP_PUBLIC_URL}` + post.medias[index]} alt="post_media" />
       <span
         className="material-icons-outlined"
         onClick={() => setIndex((index + 1) % post.medias.length)}

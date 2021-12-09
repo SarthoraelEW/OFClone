@@ -2,6 +2,9 @@ import axios from "axios";
 
 export const GET_POSTS_FROM_CREATOR = "GET_POSTS_FROM_CREATOR";
 export const GET_POSTS_FOR_USER = "GET_POSTS_FOR_USER";
+export const GET_POST = "GET_POST";
+export const CREATE_POST = "CREATE_POST";
+export const DELETE_POST = "DELETE_POST";
 export const LIKE_POST = "LIKE_POST";
 export const UNLIKE_POST = "UNLIKE_POST";
 export const LIKE_COMMENT = "LIKE_COMMENT";
@@ -34,9 +37,56 @@ export const getPostsForUser = (uid) => {
         dispatch({ type: GET_POSTS_FOR_USER, payload: res.data });
       })
       .catch((err) => {
-        console.log("Error");
         console.log(err);
       });
+  };
+};
+
+export const getPost = (postId) => {
+  return (dispatch) => {
+    return axios({
+      method: "get",
+      url: `${process.env.REACT_APP_API_URL}api/post/get-post/${postId}`,
+      withCredentials: true
+    })
+    .then((res) => {
+      dispatch({ type: GET_POST, payload: res.data });
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+  };
+};
+
+export const createPost = (newPost, files, uid, isPublic) => {
+  const formData = new FormData();
+  formData.append("message", newPost);
+  formData.append("posterId", uid);
+  formData.append("isPublic", isPublic);
+  for (let i = 0; i < files.length; i++)
+    formData.append("files", files[i].file);
+
+  return (dispatch) => {
+    return axios
+      .post(`${process.env.REACT_APP_API_URL}api/post/create-post`, formData, { headers: {'Content-Type': 'multipart/form-data'}})
+      .then((res) => {
+        dispatch({ type: CREATE_POST, payload: res.data })
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+};
+
+export const deletePost = (postId) => {
+  return (dispatch) => {
+    return axios.delete(`${process.env.REACT_APP_API_URL}api/post/delete-post/${postId}`)
+      .then((res) => {
+        dispatch({ type: DELETE_POST, payload: { postId }})
+      })
+      .catch((err) => {
+        console.log(err);
+      })
   };
 };
 

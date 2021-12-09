@@ -32,12 +32,12 @@ const HiddenMenu = ({ handleClose }) => {
       <div className="hidden-menu">
         <div className="hidden-menu-header">
           <div className="profil-close">
-            <img src={!isEmpty(user) && user.profilePicture} alt="profil" />
+            <img src={!isEmpty(user) && `${process.env.REACT_APP_PUBLIC_URL}` + user.profilePicture} alt="profil" />
             <span class="material-icons-outlined close" onClick={handleClose}>
               close
             </span>
           </div>
-          <h4>{!isEmpty(user) && user.username}</h4>
+          <h4>{!isEmpty(user) && user.displayName}</h4>
           <h5>{!isEmpty(user) && "@" + user.username}</h5>
           <h4>
             {!isEmpty(user) && user.fans.length + " "}

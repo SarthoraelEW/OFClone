@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { dateParser, isEmpty } from "../Utils";
 import { UidContext } from "../AppContext";
 import { likeComment, unlikeComment, deleteComment } from "../../actions/posts.action";
-import PopupMenu from "./PopupMenu";
+import PopupMenuComment from "./PopupMenuComment";
 
 const Comment = ({ post, comment }) => {
   const dispatch = useDispatch();
@@ -52,7 +52,7 @@ const Comment = ({ post, comment }) => {
     <div className="comment">
       <img
         className="comment-img"
-        src={!isEmpty(commenter) && commenter.profilePicture}
+        src={!isEmpty(commenter) && `${process.env.REACT_APP_PUBLIC_URL}` + commenter.profilePicture}
         alt="profil"
       />
       <div className="comment-content">
@@ -85,7 +85,7 @@ const Comment = ({ post, comment }) => {
         )}
         <span class="material-icons-outlined more" onClick={showPopupMenu}>more_horiz</span>
         <div id={"popup-menu-container " + comment._id} className="popup-menu-container hidden">
-          <PopupMenu deleteComment={dispatchDeleteComment} comment={comment}/>
+          <PopupMenuComment deleteComment={dispatchDeleteComment} comment={comment}/>
         </div>
       </div>
     </div>

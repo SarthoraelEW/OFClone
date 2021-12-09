@@ -1,6 +1,9 @@
 import {
   COMMENT_POST,
+  CREATE_POST,
   DELETE_COMMENT,
+  DELETE_POST,
+  GET_POST,
   GET_POSTS_FOR_USER,
   GET_POSTS_FROM_CREATOR,
   LIKE_COMMENT,
@@ -18,6 +21,15 @@ export default function postsReducer(state = initialState, action) {
 
     case GET_POSTS_FROM_CREATOR:
       return action.payload;
+
+    case GET_POST:
+      return [action.payload];
+
+    case CREATE_POST:
+      return state.concat([action.payload]);
+
+    case DELETE_POST:
+      return state.filter((post) => post._id !== action.payload.postId);
 
     case LIKE_POST:
       return state.map((post) => {

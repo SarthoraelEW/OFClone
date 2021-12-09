@@ -2,9 +2,8 @@
   position: absolute;
   z-index: 2000;
   background-color: $background-color;
-  transform: translateX(-50%);
-  transform: translateY(-50%);
-  top: 0;
+  top: -10%;
+  right: 20%;
   border: 1px solid $border-color;
   box-shadow: $text-color 0px 0px 15px, $text-color 0px 0px 3px 1px;
   border-radius: 10px;

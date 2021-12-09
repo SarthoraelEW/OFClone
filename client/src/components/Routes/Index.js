@@ -10,6 +10,7 @@ import Subscriptions from '../../pages/Subscriptions';
 import EditProfil from '../../pages/EditProfil';
 import Register from '../../pages/Register';
 import Messages from '../../pages/Messages';
+import NewPost from '../../pages/NewPost';
 
 
 const Index = () => {
@@ -23,8 +24,9 @@ const Index = () => {
         <Route path="/register" element={<Register />} />
         <Route path="/notifications" element={<Notifications />} />
         <Route path="/messages" element={<Messages />} />
-        <Route path="/post" element={<Post />} />
-        <Route path="/profil" element={<Profil />} />
+        <Route path="/post/:postId" element={<Post />} />
+        <Route path="/new-post" element={<NewPost />} />
+        <Route path="/profil/:userId" element={<Profil />} />
         <Route path="/subscriptions" element={<Subscriptions />} />
         <Route path="/edit-profil" element={<EditProfil />} />
       </Routes>

@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { UidContext } from '../AppContext';
 
-const PopupMenu = ({ comment, deleteComment}) => {
+const PopupMenuComment = ({ comment, deleteComment}) => {
   const uid = useContext(UidContext);
 
   return (
@@ -12,10 +12,10 @@ const PopupMenu = ({ comment, deleteComment}) => {
       </li>
       }
       <li>
-      <h3>Report Comment</h3>
+        <h3>Report Comment</h3>
       </li>
     </ul>
   );
 };
 
-export default PopupMenu;
+export default PopupMenuComment;

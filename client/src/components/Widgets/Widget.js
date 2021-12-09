@@ -16,7 +16,7 @@ const Widget = ({ widgetType }) => {
         <li>
           <img
             className="rounded-picture"
-            src={!isEmpty(usersFromSubscriptions[0 + index]) && usersFromSubscriptions[0 + index].profilePicture}
+            src={!isEmpty(usersFromSubscriptions[0 + index]) && `${process.env.REACT_APP_PUBLIC_URL}` + usersFromSubscriptions[0 + index].profilePicture}
             alt="profile"
           />
           <div className="widget-card-footer">
@@ -25,14 +25,14 @@ const Widget = ({ widgetType }) => {
           </div>
           <img
             className="widget-card-bannery"
-            src={!isEmpty(usersFromSubscriptions[0 + index]) && usersFromSubscriptions[0 + index].bannery}
+            src={!isEmpty(usersFromSubscriptions[0 + index]) && `${process.env.REACT_APP_PUBLIC_URL}` + usersFromSubscriptions[0 + index].bannery}
             alt="profile"
           />
         </li>
         <li>
           <img
             className="rounded-picture"
-            src={!isEmpty(usersFromSubscriptions[1 + index]) && usersFromSubscriptions[1 + index].profilePicture}
+            src={!isEmpty(usersFromSubscriptions[1 + index]) && `${process.env.REACT_APP_PUBLIC_URL}` + usersFromSubscriptions[1 + index].profilePicture}
             alt="profile"
           />
           <div className="widget-card-footer">
@@ -41,14 +41,14 @@ const Widget = ({ widgetType }) => {
           </div>
           <img
             className="widget-card-bannery"
-            src={!isEmpty(usersFromSubscriptions[1 + index]) && usersFromSubscriptions[1 + index].bannery}
+            src={!isEmpty(usersFromSubscriptions[1 + index]) && `${process.env.REACT_APP_PUBLIC_URL}` + usersFromSubscriptions[1 + index].bannery}
             alt="profile"
           />
         </li>
         <li>
           <img
             className="rounded-picture"
-            src={!isEmpty(usersFromSubscriptions[2 + index]) && usersFromSubscriptions[2 + index].profilePicture}
+            src={!isEmpty(usersFromSubscriptions[2 + index]) && `${process.env.REACT_APP_PUBLIC_URL}` + usersFromSubscriptions[2 + index].profilePicture}
             alt="profile"
           />
           <div className="widget-card-footer">
@@ -57,7 +57,7 @@ const Widget = ({ widgetType }) => {
           </div>
           <img
             className="widget-card-bannery"
-            src={!isEmpty(usersFromSubscriptions[2 + index]) && usersFromSubscriptions[2 + index].bannery}
+            src={!isEmpty(usersFromSubscriptions[2 + index]) && `${process.env.REACT_APP_PUBLIC_URL}` + usersFromSubscriptions[2 + index].bannery}
             alt="profile"
           />
         </li>

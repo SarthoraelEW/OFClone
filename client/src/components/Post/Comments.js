@@ -1,4 +1,5 @@
 import React, { useContext, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { commentPost } from "../../actions/posts.action";
 import { getUsersFromPost } from "../../actions/users.action";
@@ -6,7 +7,8 @@ import { UidContext } from "../AppContext";
 import { isEmpty } from "../Utils";
 import Comment from "./Comment";
 
-const Comments = ({ post, handleClick }) => {
+const Comments = ({ post, handleClick, showNumber }) => {
+  const navigate = useNavigate()
   const uid = useContext(UidContext);
 
   const dispatch = useDispatch();
@@ -25,16 +27,16 @@ const Comments = ({ post, handleClick }) => {
     <>
       <ul>
         {!isEmpty(post.comments) &&
-          post.comments.slice(0, 3).map((comment) => {
+          post.comments.slice(0, showNumber).map((comment) => {
             return <Comment comment={comment} post={post} key={comment._id} />;
           })}
       </ul>
-      <h5>View more comments</h5>
+      <h5 onClick={() => navigate('/post/' + post._id)}>View more comments</h5>
       <div className="new-comment-container">
-        <img className="comment-img" src={user.profilePicture} alt="profil" />
+        <img className="comment-img" src={`${process.env.REACT_APP_PUBLIC_URL}` + user.profilePicture} alt="profil" />
         <input
           type="text"
-          name="query"
+          name="new-comment"
           id="new-comment"
           placeholder="Add a comment..."
           value={newComment}
@@ -48,7 +50,7 @@ const Comments = ({ post, handleClick }) => {
           reply
         </span>
       </div>
-      <h5 onClick={handleClick}>Hide comments</h5>
+      {showNumber === 3 && <h5 onClick={handleClick}>Hide comments</h5> }
     </>
   );
 };

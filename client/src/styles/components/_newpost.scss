@@ -1,0 +1,123 @@
+.new-post {
+  width: 40%;
+  border-right: 1px solid $border-color;
+
+  ::-webkit-scrollbar {
+    display: none;
+  }
+
+  .new-post-header {
+    display: flex;
+    position: relative;
+    border-bottom: 1px solid $border-color;
+    color: white;
+    padding: 10px;
+
+    h1 {
+      font-size: 1.6rem;
+      text-transform: uppercase;
+    }
+
+    span,
+    button {
+      cursor: pointer;
+    }
+
+    button {
+      position: absolute;
+      right: 0;
+      margin-right: 20px;
+
+      background-color: $light-blue;
+      border: none;
+      border-radius: 25px;
+      padding-top: 6px;
+      padding-bottom: 6px;
+      padding-left: 13px;
+      padding-right: 13px;
+      cursor: pointer;
+      color: white;
+      font-size: 1.1rem;
+      transition: background-color 0.5s ease;
+
+      &:hover {
+        background-color: $blue;
+        transition: background-color 0.2s ease;
+      }
+    }
+  }
+
+  #newpost-textarea {
+    background-color: $background-color;
+    color: white;
+    font-size: 1.3rem;
+    padding: 15px;
+    width: 100%;
+    height: 120px;
+    resize: none;
+    font-weight: bold;
+    font-family: 'Times New Roman', Times, serif;
+    border-bottom: 1px solid $border-color;
+    margin-bottom: 15px;
+
+    ::placeholder {
+      color: $text-color;
+    }
+  }
+
+  .file-uploader {
+    width: 100%;
+    border-bottom: 1px solid $text-color;
+    padding-bottom: 15px;
+
+    .inputfile {
+      width: 0.1px;
+      height: 0.1px;
+      opacity: 0;
+      overflow: hidden;
+      position: absolute;
+      z-index: -1;
+    }
+
+    label {
+      color: $text-color;
+      margin-left: 20px;
+      cursor: pointer;
+    }
+
+    ul {
+      display: flex;
+      flex-direction: row;
+
+      li {
+        border: 1px solid $text-color;
+        border-radius: 10px;
+        padding: 3px;
+        margin-left: 10px;
+        position: relative;
+
+        .preview-img {
+          width: 100px;
+          height: 100px;
+          border-radius: 10px;
+        }
+
+        span {
+          position: absolute;
+          color: $text-color;
+          cursor: pointer;
+          top: 0;
+          right: 0;
+          margin-top: 8px;
+          margin-right: 8px;
+          border-radius: 50%;
+          padding: 2px;
+
+          &:hover {
+            background-color: rgba(0, 0, 0, 0.5);
+          }
+        }
+      }
+    }
+  }
+}

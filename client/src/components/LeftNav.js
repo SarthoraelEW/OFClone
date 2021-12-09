@@ -1,25 +1,13 @@
-import React, { useContext, useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useState } from "react";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { getUser } from "../actions/user.actions";
-import { UidContext } from "./AppContext";
 import HiddenMenu from "./HiddenMenu";
 
 const LeftNav = ({ page }) => {
   let navigate = useNavigate();
   const [showingHiddenMenu, setShowingHiddenMenu] = useState(false);
 
-  const uid = useContext(UidContext);
-
-  const dispatch = useDispatch();
   const user = useSelector((state) => state.userReducer);
-
-  useEffect(() => {
-    const getData = async () => {
-      dispatch(getUser(uid));
-    };
-    getData();
-  }, [dispatch, uid]);
 
   const setHiddenMenuActive = () => {
     var hiddenMenu = document.getElementById("hidden-menu-container");
@@ -40,7 +28,7 @@ const LeftNav = ({ page }) => {
       </div>
       <ul>
         <li className="profil-picture">
-          <img src={user.profilePicture} alt="profil" onClick={setHiddenMenuActive} />
+          <img src={`${process.env.REACT_APP_PUBLIC_URL}` + user.profilePicture} alt="profil" onClick={setHiddenMenuActive} />
         </li>
         <li className={page === "home" ? "active page-link" : "page-link"} onClick={() => {navigate('/')}}>
           <span class="material-icons-outlined">home</span>
@@ -66,7 +54,7 @@ const LeftNav = ({ page }) => {
           <span class="material-icons-outlined">more_horiz</span>
           <h2>More</h2>
         </li>
-        <li className="newpost-button">
+        <li className="newpost-button" onClick={() => {navigate('/new-post')}}>
           <span class="material-icons-outlined">add</span>
           <h3>NEW POST</h3>
         </li>
