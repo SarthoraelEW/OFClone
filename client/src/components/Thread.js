@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useSelector } from "react-redux";
 import Card from "./Post/Card";
 import { isEmpty } from "./Utils";

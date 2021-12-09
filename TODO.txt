@@ -1,3 +1,6 @@
 Add 1/nb de photo sur les posts avec plusieurs photos.
 Add videos
 Add date when < 1 day
+Add fullscreen preview for photos in newpost
+FIXME: We have to reload the page for a delete post to disappear
+DELETE file when post or user is delete

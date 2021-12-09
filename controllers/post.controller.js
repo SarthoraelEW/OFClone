@@ -265,18 +265,7 @@ exports.deletePost = async (req, res) => {
   if (!ObjectId.isValid(req.params.id))
     return res.status(400).send("ID unknow: " + req.params.id);
 
-  const post = await PostModel.findById(req.params.id);
   try {
-    await UserModel.findByIdAndUpdate(
-      post.posterId,
-      {
-        $pull: {posts: req.params.id}
-      },
-      { new: true, upsert: true, setDefaultsOnInsert: true },
-      (err, docs) => {
-        if (err) return res.status(500).send(err);
-      }
-    );
     PostModel.findByIdAndDelete(req.params.id).exec();
     res.status(200).json({ message: "Successfully deleted." });
   } catch (err) {
